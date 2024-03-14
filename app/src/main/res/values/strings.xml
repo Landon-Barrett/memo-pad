@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MemoPad</string>
+    <string name="new_memo_prompt">New Memo:</string>
+    <string name="memo_input_hint">Enter a memo...</string>
+    <string name="add_memo_btn">Add Memo</string>
+    <string name="add_memo_btn_tag">addMemoBtn</string>
+    <string name="delete_memo_btn">Delete Memo</string>
+    <string name="delete_memo_btn_tag">deleteMemoBtn</string>
+</resources>
