@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.beans.PropertyChangeEvent;
 
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements AbstractView {
         setContentView(view);
 
         db = new DatabaseHandler(this, null, null, 1);
+        updateRecyclerView();
 
         /* Create Controller and Model */
 
@@ -97,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements AbstractView {
 
     private void updateRecyclerView() {
 
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(db.getAllContactsAsList());
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, db.getAllContactsAsList());
         binding.output.setHasFixedSize(true);
         binding.output.setLayoutManager(new LinearLayoutManager(this));
         binding.output.setAdapter(adapter);
@@ -124,6 +126,19 @@ public class MainActivity extends AppCompatActivity implements AbstractView {
 
         }
 
+    }
+
+    private class MemoPadItemClickHandler implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            int position = binding.output.getChildLayoutPosition(v);
+            RecyclerViewAdapter adapter = (RecyclerViewAdapter)binding.output.getAdapter();
+            if (adapter != null) {
+                String memo = adapter.getItem(position);
+                int id = memo.getId();
+                Toast.makeText(v.getContext(), String.valueOf(id), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
 }

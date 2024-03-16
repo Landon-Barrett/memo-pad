@@ -15,9 +15,13 @@ import edu.jsu.mcis.cs408.memopad.databinding.MemoItemBinding;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private final List<String> data;
+    private final MainActivity activity;
 
-    public RecyclerViewAdapter(List<String> data) {
+    public RecyclerViewAdapter(MainActivity activity, List<String> data) {
+
+        super();
         this.data = data;
+        this.activity = activity;
     }
 
     @NonNull
@@ -53,15 +57,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public void setMemo(String memo) {
             this.memo = memo;
         }
+        public String getMemo() {return memo;}
 
         public void bindData() {
 
             TextView memoLabel = (TextView) itemView.findViewById(R.id.memoLabel);
 
-            memoLabel.setText(memo.toString());
+            memoLabel.setText(memo);
 
         }
 
     }
+
+
 
 }

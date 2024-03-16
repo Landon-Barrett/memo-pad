@@ -99,7 +99,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public String getContact(int id) {
+    public String getMemo(int id) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -132,7 +132,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
             do {
                 int id = cursor.getInt(0);
-                allMemos.add( getContact(id) );
+                allMemos.add( getMemo(id) );
             }
             while ( cursor.moveToNext() );
 
