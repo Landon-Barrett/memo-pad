@@ -14,10 +14,10 @@ import edu.jsu.mcis.cs408.memopad.databinding.MemoItemBinding;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private final List<String> data;
+    private final List<Memo> data;
     private final MainActivity activity;
 
-    public RecyclerViewAdapter(MainActivity activity, List<String> data) {
+    public RecyclerViewAdapter(MainActivity activity, List<Memo> data) {
 
         super();
         this.data = data;
@@ -27,10 +27,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         MemoItemBinding binding = MemoItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        binding.getRoot().setOnClickListener(activity.getItemClick()); // the click handler
         return new ViewHolder(binding.getRoot());
-
     }
 
     @Override
@@ -41,6 +40,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }
 
+
+    public Memo getItem(int position) {
+
+        Memo memo = data.get(position);
+
+        return memo;
+    }
+
     @Override
     public int getItemCount() {
         return data.size();
@@ -48,22 +55,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private String memo;
+        private Memo memo;
 
         public ViewHolder(View itemView) {
             super(itemView);
         }
 
-        public void setMemo(String memo) {
+        public void setMemo(Memo memo) {
             this.memo = memo;
         }
-        public String getMemo() {return memo;}
+        public Memo getMemo() {return memo;}
 
         public void bindData() {
 
             TextView memoLabel = (TextView) itemView.findViewById(R.id.memoLabel);
 
-            memoLabel.setText(memo);
+            memoLabel.setText(memo.getMemo());
 
         }
 

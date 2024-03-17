@@ -19,9 +19,11 @@ public class MainActivity extends AppCompatActivity implements AbstractView {
     public static final String TAG = "MainActivity";
 
     private ActivityMainBinding binding;
+    private int selectedMemo;
     private DatabaseHandler db;
 
     private DefaultController controller;
+    private final MemoPadItemClickHandler itemClick = new MemoPadItemClickHandler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements AbstractView {
         */
     }
 
+    public MemoPadItemClickHandler getItemClick() { return itemClick; }
+
     private void updateRecyclerView() {
 
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, db.getAllContactsAsList());
@@ -123,19 +127,23 @@ public class MainActivity extends AppCompatActivity implements AbstractView {
                 controller.changeElementRecycler(newText, db);
                 updateRecyclerView();
             }
-
+            else if (tag.equals("deleteMemoBtn")) {
+                controller.changeElementRecyclerDelete(selectedMemo, db);
+                updateRecyclerView();
+            }
         }
 
     }
 
-    private class MemoPadItemClickHandler implements View.OnClickListener {
+     private class MemoPadItemClickHandler implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             int position = binding.output.getChildLayoutPosition(v);
             RecyclerViewAdapter adapter = (RecyclerViewAdapter)binding.output.getAdapter();
             if (adapter != null) {
-                String memo = adapter.getItem(position);
+                Memo memo = adapter.getItem(position);
                 int id = memo.getId();
+                selectedMemo = id;
                 Toast.makeText(v.getContext(), String.valueOf(id), Toast.LENGTH_SHORT).show();
             }
         }

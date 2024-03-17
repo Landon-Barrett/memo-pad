@@ -24,7 +24,13 @@ public class DefaultController extends AbstractController
 
     public void changeElementRecycler(String newText, DatabaseHandler db) {
 
-        model.addNewMemo(newText, db);
+        model.addNewMemo(new Memo(newText), db);
+
+    }
+
+    public void changeElementRecyclerDelete(int selectedMemo, DatabaseHandler db) {
+
+        model.deleteMemo(selectedMemo, db);
 
     }
 

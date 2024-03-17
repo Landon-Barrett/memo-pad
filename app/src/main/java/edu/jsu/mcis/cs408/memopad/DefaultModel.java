@@ -27,9 +27,14 @@ public class DefaultModel extends AbstractModel {
      * Simple getter methods for text1 and text2
      */
 
-    public void addNewMemo(String newText, DatabaseHandler db) {
+    public void addNewMemo(Memo memo, DatabaseHandler db) {
 
-        db.addMemo(newText);
+        db.addMemo(memo);
+    }
+
+    public void deleteMemo(int selectedMemo, DatabaseHandler db) {
+
+        db.deleteMemo(selectedMemo);
     }
 
     public String getText1() {

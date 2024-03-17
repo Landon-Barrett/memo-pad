@@ -35,6 +35,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String QUERY_GET_ALL_MEMOS = "SELECT * FROM " + TABLE_MEMOS;
     public static final String QUERY_GET_MEMO = "SELECT * FROM " + TABLE_MEMOS + " WHERE " + COLUMN_ID + " = ?";
 
+    public static final String QUERY_DELETE_WHERE = "_id=?";
+
     //private final List<String[]> init;
 
     public DatabaseHandler(Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
@@ -80,10 +82,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public void addMemo(String m) {
+    public void addMemo(Memo m) {
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_MEMO, m.toString());
+        values.put(COLUMN_MEMO, m.getMemo());
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert(TABLE_MEMOS, null, values);
@@ -91,24 +93,28 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public void deleteAllContacts() {
+    public void deleteMemo(int selectedMemo) {
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_ID, selectedMemo);
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        db.delete(TABLE_MEMOS, null, null);
+        db.delete(TABLE_MEMOS, QUERY_DELETE_WHERE, new String[]{ String.valueOf(selectedMemo) });
+        db.close();
 
     }
 
-    public String getMemo(int id) {
+    public Memo getMemo(int id) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor = db.rawQuery(QUERY_GET_MEMO, new String[]{ String.valueOf(id) });
-        String m = "";
+        Memo m = null;
         if (cursor.moveToFirst()) {
             int newId = cursor.getInt(0);
             String memo = cursor.getString(1);
-            m = memo;
+            m = new Memo(newId,memo);
             cursor.close();
         }
 
@@ -119,9 +125,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<String> getAllContactsAsList() {
+    public ArrayList<Memo> getAllContactsAsList() {
 
-        ArrayList<String> allMemos = new ArrayList<>();
+        ArrayList<Memo> allMemos = new ArrayList<>();
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(QUERY_GET_ALL_MEMOS, null);
