@@ -31,8 +31,13 @@ public class MemoPadModel extends AbstractModel {
      */
 
     public void addNewMemo(Memo memo, DatabaseHandler db) {
+        if((memo.getMemo().equals("")) || (memo.getMemo().equals(" "))) {
+            //Do nothing.
+        }
+        else {
+            db.addMemo(memo);
+        }
 
-        db.addMemo(memo);
     }
 
     public void deleteMemo(int selectedMemo, DatabaseHandler db) {

@@ -70,17 +70,6 @@ public class MainActivity extends AppCompatActivity implements AbstractView {
             updateRecyclerView(propertyValue);
         }
 
-        /*
-        else if ( propertyName.equals(DefaultController.ELEMENT_TEXT2_PROPERTY) ) {
-
-            String oldPropertyValue = binding.outputText2.getText().toString();
-
-            if ( !oldPropertyValue.equals(propertyValue) ) {
-                binding.outputText2.setText(propertyValue);
-            }
-
-        }
-        */
     }
 
     public MemoPadItemClickHandler getItemClick() { return itemClick; }
