@@ -27,6 +27,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         MemoItemBinding binding = MemoItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         binding.getRoot().setOnClickListener(activity.getItemClick()); // the click handler
         return new ViewHolder(binding.getRoot());
@@ -39,7 +40,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.bindData();
 
     }
-
 
     public Memo getItem(int position) {
 
@@ -64,7 +64,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public void setMemo(Memo memo) {
             this.memo = memo;
         }
-        public Memo getMemo() {return memo;}
 
         public void bindData() {
 
@@ -75,7 +74,5 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
 
     }
-
-
 
 }

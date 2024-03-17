@@ -8,12 +8,6 @@ public abstract class AbstractModel
 
     protected PropertyChangeSupport propertyChangeSupport;
 
-    /*
-     * These methods add and remove an AbstractController subclass as a
-     * a PropertyChangeListener, and ensure that changes to the Model are
-     * announced to the Controller in the form of a PropertyChange event.
-     */
-
     public AbstractModel()
     {
         propertyChangeSupport = new PropertyChangeSupport(this);

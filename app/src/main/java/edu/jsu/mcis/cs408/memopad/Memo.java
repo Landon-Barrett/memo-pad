@@ -22,6 +22,7 @@ public class Memo {
     public String getMemo() {
         return memo;
     }
+
     public int getId() {return id;}
 
 }

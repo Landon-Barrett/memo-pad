@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements AbstractView {
         controller = new MemoPadController(model);
 
         controller.addView(this);
-        //controller.addModel(model);
 
         DefaultClickHandler click = new DefaultClickHandler();
         ConstraintLayout layout = binding.layout;
@@ -55,16 +54,8 @@ public class MainActivity extends AppCompatActivity implements AbstractView {
     @Override
     public void modelPropertyChange(final PropertyChangeEvent evt) {
 
-        /*
-         * This method is called by the "propertyChange()" method of AbstractController
-         * when a change is made to an element of a Model.  It identifies the element that
-         * was changed and updates the View accordingly.
-         */
-
         String propertyName = evt.getPropertyName();
         List<Memo> propertyValue = (List) evt.getNewValue();
-
-
 
         if ( propertyName.equals(MemoPadController.ELEMENT_RECYCLER_PROPERTY) ) {
             updateRecyclerView(propertyValue);
@@ -87,11 +78,6 @@ public class MainActivity extends AppCompatActivity implements AbstractView {
 
         @Override
         public void onClick(View view) {
-
-            /*
-             * When the "Change" buttons are clicked, inform the controller of an input field
-             * change, so that the Model(s) can be updated accordingly.
-             */
 
             String tag = view.getTag().toString();
 
