@@ -1,6 +1,6 @@
 package edu.jsu.mcis.cs408.memopad;
 
-public class DefaultController extends AbstractController
+public class MemoPadController extends AbstractController
 {
 
     /*
@@ -13,7 +13,8 @@ public class DefaultController extends AbstractController
 
     public static final String ELEMENT_TEXT1_PROPERTY = "Text1";
     public static final String ELEMENT_TEXT2_PROPERTY = "Text2";
-    public DefaultModel model = new DefaultModel();
+    public static final String ELEMENT_RECYCLER_PROPERTY = "Recycler";
+    public MemoPadModel model = new MemoPadModel();
 
     /*
      * This is the change method which corresponds to ELEMENT_TEXT1_PROPERTY.
@@ -22,15 +23,21 @@ public class DefaultController extends AbstractController
      * and updated properly.
      */
 
+    public MemoPadController(MemoPadModel model) {
+        super();
+        this.model = model;
+        addModel(model);
+    }
     public void changeElementRecycler(String newText, DatabaseHandler db) {
 
         model.addNewMemo(new Memo(newText), db);
-
+        model.listMemos(db);
     }
 
     public void changeElementRecyclerDelete(int selectedMemo, DatabaseHandler db) {
 
         model.deleteMemo(selectedMemo, db);
+        model.listMemos(db);
 
     }
 

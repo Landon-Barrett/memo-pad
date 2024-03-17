@@ -2,7 +2,9 @@ package edu.jsu.mcis.cs408.memopad;
 
 import android.util.Log;
 
-public class DefaultModel extends AbstractModel {
+import java.util.List;
+
+public class MemoPadModel extends AbstractModel {
 
     public static final String TAG = "DefaultModel";
 
@@ -15,6 +17,7 @@ public class DefaultModel extends AbstractModel {
     private String text1;
 
     private String text2;
+    private List<Memo> recycler = null;
 
     /*
      * Initialize the model elements to known default values.  We use the setter
@@ -35,6 +38,14 @@ public class DefaultModel extends AbstractModel {
     public void deleteMemo(int selectedMemo, DatabaseHandler db) {
 
         db.deleteMemo(selectedMemo);
+    }
+
+    public void listMemos(DatabaseHandler db) {
+
+        List<Memo> oldRecycler = this.recycler;
+
+        this.recycler = db.getAllMemosAsList();
+        firePropertyChange(MemoPadController.ELEMENT_RECYCLER_PROPERTY, oldRecycler, recycler);
     }
 
     public String getText1() {
@@ -60,7 +71,7 @@ public class DefaultModel extends AbstractModel {
 
         Log.i(TAG, "Text1 Change: From " + oldText + " to " + newText);
 
-        firePropertyChange(DefaultController.ELEMENT_TEXT1_PROPERTY, oldText, newText);
+        firePropertyChange(MemoPadController.ELEMENT_TEXT1_PROPERTY, oldText, newText);
 
     }
 
@@ -71,7 +82,7 @@ public class DefaultModel extends AbstractModel {
 
         Log.i(TAG, "Text2 Change: From " + oldText + " to " + newText);
 
-        firePropertyChange(DefaultController.ELEMENT_TEXT2_PROPERTY, oldText, newText);
+        firePropertyChange(MemoPadController.ELEMENT_TEXT2_PROPERTY, oldText, newText);
 
     }
 

@@ -5,24 +5,21 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import java.beans.PropertyChangeEvent;
+import java.util.List;
 
 import edu.jsu.mcis.cs408.memopad.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity implements AbstractView {
 
-    public static final String TAG = "MainActivity";
-
     private ActivityMainBinding binding;
     private int selectedMemo;
     private DatabaseHandler db;
-
-    private DefaultController controller;
+    private MemoPadController controller;
     private final MemoPadItemClickHandler itemClick = new MemoPadItemClickHandler();
 
     @Override
@@ -34,22 +31,14 @@ public class MainActivity extends AppCompatActivity implements AbstractView {
         setContentView(view);
 
         db = new DatabaseHandler(this, null, null, 1);
-        updateRecyclerView();
+        updateRecyclerView(db.getAllMemosAsList());
 
-        /* Create Controller and Model */
 
-        controller = new DefaultController();
-        DefaultModel model = new DefaultModel();
-
-        /* Register Activity View and Model with Controller */
+        MemoPadModel model = new MemoPadModel();
+        controller = new MemoPadController(model);
 
         controller.addView(this);
-        controller.addModel(model);
-
-        /* Initialize Model to Default Values */
-
-
-        /* Associate Click Handler with Input Buttons */
+        //controller.addModel(model);
 
         DefaultClickHandler click = new DefaultClickHandler();
         ConstraintLayout layout = binding.layout;
@@ -73,20 +62,15 @@ public class MainActivity extends AppCompatActivity implements AbstractView {
          */
 
         String propertyName = evt.getPropertyName();
-        String propertyValue = evt.getNewValue().toString();
+        List<Memo> propertyValue = (List) evt.getNewValue();
 
-        Log.i(TAG, "New " + propertyName + " Value from Model: " + propertyValue);
-        /*
-        if ( propertyName.equals(DefaultController.ELEMENT_TEXT1_PROPERTY) ) {
 
-            String oldPropertyValue = binding.outputText1.getText().toString();
 
-            if ( !oldPropertyValue.equals(propertyValue) ) {
-                binding.outputText1.setText(propertyValue);
-            }
-
+        if ( propertyName.equals(MemoPadController.ELEMENT_RECYCLER_PROPERTY) ) {
+            updateRecyclerView(propertyValue);
         }
 
+        /*
         else if ( propertyName.equals(DefaultController.ELEMENT_TEXT2_PROPERTY) ) {
 
             String oldPropertyValue = binding.outputText2.getText().toString();
@@ -101,9 +85,9 @@ public class MainActivity extends AppCompatActivity implements AbstractView {
 
     public MemoPadItemClickHandler getItemClick() { return itemClick; }
 
-    private void updateRecyclerView() {
+    private void updateRecyclerView(List<Memo> allMemos) {
 
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, db.getAllContactsAsList());
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, allMemos);
         binding.output.setHasFixedSize(true);
         binding.output.setLayoutManager(new LinearLayoutManager(this));
         binding.output.setAdapter(adapter);
@@ -125,11 +109,9 @@ public class MainActivity extends AppCompatActivity implements AbstractView {
             if (tag.equals("addMemoBtn")) {
                 String newText = binding.memoInput.getText().toString();
                 controller.changeElementRecycler(newText, db);
-                updateRecyclerView();
             }
             else if (tag.equals("deleteMemoBtn")) {
                 controller.changeElementRecyclerDelete(selectedMemo, db);
-                updateRecyclerView();
             }
         }
 
